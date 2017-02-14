@@ -1,0 +1,152 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{libertine}
+\usepackage{tango}
+%\usepackage[colorlinks=true]{hyperref}
+
+\hypersetup{urlcolor=DarkChocolate}
+
+\title{Mémo Git}
+%\author{\scalebox{0.35}{ \includegraphics{logo_azae}}}
+\author{Thomas Clavier}
+\date{}
+
+\setlength{\parindent}{0pt}
+\newcounter{question}
+\setcounter{question}{1}
+\newcommand{\q}{
+  \textcolor{DarkOrange}{\textbf{Question \thequestion : }}
+  \addtocounter{question}{1}
+  \newline
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+
+L'ensemble de ce mémo est disponible sur \url{http://github.com/tclavier/tp-git-blog/} vous pouvez participer à son amélioration en proposant des <<pull request>>.
+
+\section*{Présentation}
+
+Git est un logiciel de gestion de versions décentralisé.
+
+Ce mémo est un extrait du livre : \url{https://git-scm.com/book/fr}
+
+\subsection*{Des objets}
+Un dépôt Git peut être vu comme une collection d’objets liés entre eux. 
+Chaque objet est identifié par une chaîne de 40 caractères hexadécimaux correspondant à la somme de contrôle de son contenu. 
+Il y a 3 types d'objets : 
+\begin{itemize}
+\item blob : les données
+\item tree : les arborescences
+\item commit : une version du répertoire de travail
+\end{itemize}
+
+\begin{figure}
+  \center
+  \includegraphics{arbo_img}
+  \caption{3 types d'objets}
+  \label{objets}
+\end{figure}
+Comme illustré sur la figure \ref{objets} un <<commit>> est une image du répertoire de travail à un instant T. 
+Le répertoire de travail est lui-même un objet de type <<arborescence>> qui va contenir des objets <<données>> et <<arborescences>>.
+
+L'historique d'un dépôt Git c'est l'ensemble des versions du répertoire de travail. Pour identifier une version, Git s'appuie sur un objet de type <<commit>>. 
+L'objet de type <<commit>> associe de nombreuses informations comme l'auteur, un message, une version de l'objet répertoire de travail mais aussi les <<commits> parents. 
+Sur la figure \ref{graphs} on peut observer un historique de commit avec 3 branches.
+
+\begin{figure}
+  \center
+  \includegraphics{graphs_img}
+  \caption{Historiques de commits}
+  \label{graphs}
+\end{figure}
+%TODO 3 schémas : graph de versions (branches) graphs de commits et tree + blob
+
+\subsection*{Les espaces}
+Git utilise 3 espaces différents pour manipuler toutes ces données.
+\begin{itemize}
+\item le répertoire de travail
+\item l'index
+\item l'historique
+\end{itemize}
+
+Le répertoire de travail présente dans un dossier de la machine, l'ensemble des fichiers du dépôt. C'est le point d'entrée de l'utilisateur.
+
+L'index contient les données en préparation pour le commit
+
+La tête (HEAD) de l'historique est un pointeur vers le commit qui sera utilisé comme prochain commit parent.
+
+Sur la figure \ref{espaces} illustre les impactes de différentes commandes sur les 3 espaces de données.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{espaces_img}
+  \caption{Les 3 espaces de données}
+  \label{espaces}
+\end{figure}
+
+\subsection*{À distance}
+Avec les commandes push, fetch et pull, il est possible d'envoyer ou de recevoir la totalité de l'historique d'une branche vers un serveur distant. Ce qui permet de travailler à plusieurs sur le même projet.
+
+Ces commandes sont illustrés sur la figure \ref{remote}.
+
+\vspace{2mm}
+
+\begin{figure}
+  \center
+  \includegraphics[width=\textwidth]{remote_img}
+  \caption{Serveurs distants}
+  \label{remote}
+\end{figure}
+
+\section*{Resources}
+Pour avoir de l'aide sur git, il est possible de lancer "man git". Pour
+avoir de l'aide sur la commande "git log" il est possible de lancer "man
+git-log".
+
+Le livre : \url{https://git-scm.com/book/fr} est une autre ressource importante.
+
+\section*{Principales commandes}
+
+Toutes les commandes git sont de la forme suivante : 
+\begin{verbatim}
+git action [options] argument
+\end{verbatim}
+
+\input includes/add.tex
+\input includes/branch.tex
+\input includes/checkout.tex
+\input includes/cherry-pick.tex
+\input includes/clean.tex
+\input includes/clone.tex
+\input includes/commit.tex
+\input includes/config.tex
+\input includes/diff.tex
+\input includes/init.tex
+\input includes/log.tex
+\input includes/merge.tex
+\input includes/mv.tex
+\input includes/pull.tex
+\input includes/push.tex
+\input includes/rebase.tex
+\input includes/remote.tex
+\input includes/revert.tex
+\input includes/rm.tex
+\input includes/status.tex
+\input includes/tag.tex
+
+
+\section*{Fichiers particulier}
+
+\subsection*{.gitignore}
+Liste des fichiers ou répertoires que git doit ignorer
+
+
+
+\end{document}
+

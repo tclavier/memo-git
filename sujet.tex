@@ -1,0 +1,188 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphics}
+\usepackage[ttscale=.875]{libertine}
+\usepackage{tango}
+%\usepackage[colorlinks=true]{hyperref}
+
+\hypersetup{urlcolor=DarkChocolate}
+
+\let\oldv\verbatim
+\let\oldendv\endverbatim
+
+\def\verbatim{\par\setbox0\vbox\bgroup\oldv}
+\def\endverbatim{\oldendv\egroup\fboxsep0pt \noindent\colorbox[gray]{0.95}{\usebox0}\par}
+
+
+\title{TP Git}
+%\author{\scalebox{0.35}{ \includegraphics{logo_azae}}}
+%\author{Thomas Clavier}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{configuration}
+
+À l'aide de la commande \verb|git config| configurez votre nom (user.name) votre email (user.email) et le serveur mandataire (http.proxy) dans git. L'URL du serveur mandataire de l'université est http://cache.univ-lille1.fr:3128
+
+Vérifier à l'aide de la commande \verb|git config --list|
+
+\section{L'espace de travail}
+
+À partir de là nous allons construire un blog pour le groupe de TP.
+
+\subsection{Initialisation}
+Créez un répertoire de travail et initialisez le comme un dépôt git local.
+
+\subsection{Historique de version}
+Dans ce blog, tous les articles sont rédigés en utilisant le format Markdown (\url{https://guides.github.com/features/mastering-markdown/}).
+
+\subsubsection{Premier article}
+Dans l'espace de travail que vous avez initialisé comme dépôt local, créez un sous répertoire \verb|content|.
+
+Avec votre voisin choisissez un sujet, puis créez le même article \verb|content/votre-sujet.md| chacun dans votre dépôt local avec le contenu suivant : 
+
+\begin{verbatim}
++++
+date = "2014-01-01T12:00:00+01:00"
+draft = true
+title = "Mon sujet"
++++
+
+# Un titre
+\end{verbatim}
+
+Attention, la date de publication est au format iso 8601.
+
+Vous pouvez par exemple faire un article avec les réponses à ce TP.
+
+À l'aide de \verb|git add|, \verb|git commit| et \verb|git log|, l'ajouter dans l'index comme fichier à suivre, puis validez le changement. 
+La commande \verb|git log --oneline --decorate --graph --all| devrait vous donner :
+\begin{verbatim}
+* a0712c7 (HEAD -> master) Add my first article
+\end{verbatim}
+
+Observez l'historique des changements, quelles sont les informations disponibles ? À quoi correspondent les champs ?
+
+\subsubsection{Second changement}
+Ajoutez quelques informations dans votre article puis validez un nouveau commit.
+
+Par exemple : 
+\begin{verbatim}
++++
+date = "2014-01-01T12:00:00+01:00"
+draft = true
+title = "Mes réponses au TP Git"
++++
+
+# TP Git
+
+## Configuration
+
+    git config --global user.name "Pierre Dupond"
+    git config --global user.email "pierre.dupond@univ-lille1.fr"
+    git config --global http.proxy http://cache.univ-lille1.fr:3128
+
+\end{verbatim}
+
+La commande \verb|git log --oneline --decorate --graph --all| devrait vous donner :
+\begin{verbatim}
+* b7f0aaa (HEAD -> master) Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+Comment obtenir le diff entre les 2 derniers commits ?
+
+\subsubsection{Suppression}
+\begin{itemize}
+\item Créez un article \verb|content/lego.md| puis validez un nouveau commit. 
+\item Supprimez l'article \verb|content/lego.md| puis validez un nouveau commit. 
+\end{itemize}
+
+La commande \verb|git log --oneline --decorate --graph --all| devrait vous donner :
+\begin{verbatim}
+* 8c18094 (HEAD -> master) Remove article about Lego
+* c33514e Add article about Lego
+* b7f0aaa Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+Que voit-on dans l'historique ?
+Comment, à l'aide de la commande \verb|git checkout| peut-on retrouver le fichier en question ?
+
+La commande \verb|git log --oneline --decorate --graph --all| devrait vous donner :
+\begin{verbatim}
+* 8c18094 (master) Remove article about Lego
+* c33514e (HEAD) Add article about Lego
+* b7f0aaa Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+\subsubsection{Retour en arrière}
+
+Revenir à la situation tel que la commande \verb|git log --oneline --decorate --graph --all| vous donne :
+\begin{verbatim}
+* 8c18094 (HEAD -> master) Remove article about Lego
+* c33514e Add article about Lego
+* b7f0aaa Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+Ajoutez quelques informations dans votre article sans valider un nouveau commit.
+
+Comment faire pour annuler le travail et revenir à la dernier version \verb|commité| du fichier ?
+
+La commande \verb|git log --oneline --decorate --graph --all| devrait vous donner :
+\begin{verbatim}
+* 8c18094 (HEAD -> master) Remove article about Lego
+* c33514e Add article about Lego
+* b7f0aaa Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+\begin{itemize}
+  \item Créez un article \verb|content/satoshi-tajiri.md| puis validez un nouveau commit.
+\end{itemize}
+
+La commande \verb|git log --oneline --decorate --graph --all| devrait vous donner :
+\begin{verbatim}
+* 8d292f3 (HEAD -> master) Add article about satoshi tajiri
+* 8c18094 Remove article about Lego
+* c33514e Add article about Lego
+* b7f0aaa Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+Comment faire pour annuler ce dernier commit et revenir avec une copie de travail sans ce dernier fichier en HEAD ? En gros, comment faire pour que la commande \verb|git log --oneline --decorate --graph --all| vous donne :
+\begin{verbatim}
+* 8c18094 (HEAD -> master) Remove article about Lego
+* c33514e Add article about Lego
+* b7f0aaa Add some content in my article
+* a0712c7 Add my first article
+\end{verbatim}
+
+\section{Partager}
+
+\subsection{Via un dépôt partagé}
+
+Indiquons à Git que nous souhaitons échanger des données avec le dépôt distant suivant : \verb|http://iut.azae.net/git/tp-git.git|. Nous appelons ce dépôt \verb|origin|.
+
+Puis envoyez l'ensemble des modifications de la branche courante (master) vers le dépôt \verb|origin|
+
+Que se passe-t-il ?
+
+Visitez \url{http://iut.azae.net/} pour admirer votre travail.
+
+\subsection{Via un second dépôt}
+
+Aller sur un serveur publique comme \url{https://github.com/}, \url{https://bitbucket.org/} ou \url{https://gitlab.com}, une fois connecté créez un nouveau repository : tp-git-blog. Puis ajouter ce nouveau remote sous le nom \verb|kura|. Faire un push vers ce dépôt et observer dans l'interface web le résultat.
+
+\subsection{Travailler à plusieurs}
+En binômes, modifier le même article puis envoyer le sur le serveur distant. Comment résoudre le conflit ?
+
+\end{document}
+
