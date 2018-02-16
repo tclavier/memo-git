@@ -17,6 +17,5 @@ clean:
 	find . -maxdepth 1 -type f |egrep -v '($(KEEP))$$' | xargs rm -f	
 
 pdf: img $(patsubst %.tex,%.pdf,$(TEXFILES))
-	cp *.pdf ../public/
 
 img: $(patsubst %.svg,%_img.pdf,$(SVGFILES)) 
